@@ -1,0 +1,105 @@
+/* HUMANS.TXT
+   Best Web Developer - Team Credits & Accessibility
+   https://bestwebdeveloper.org
+   Updated: June 20, 2026
+*/
+
+/* TEAM */
+Company: Best Web Developer
+Location: 18 Lyme Road, Leicester, LE2 1QE, United Kingdom
+Phone: +44 7846 109263
+Email: hello@bestwebdeveloper.org
+Website: https://bestwebdeveloper.org
+
+/* ROLES */
+Director: Best Web Developer Team
+Lead Designer: Best Web Developer
+Lead Developer: Best Web Developer
+Project Manager: Best Web Developer Team
+Quality Assurance: Best Web Developer Team
+
+/* AVAILABILITY */
+Business Hours: 24/7 (Open Monday-Sunday 00:00-23:59)
+Response Time: 24 hours maximum
+Support Channels: Email, Phone, Contact Form
+
+/* STANDARDS & PRACTICES */
+Built With: HTML5, CSS3, JavaScript/TypeScript, Bootstrap 5.3
+Accessibility: WCAG 2.1 Level AA compliant
+Mobile First: Responsive design for all devices
+Performance: Core Web Vitals optimized
+SEO: Comprehensive schema.org markup
+AEO: AI search engine optimized
+GEO: Local search optimized
+
+/* SERVICES */
+- Web Design and Development
+- SEO Services
+- Digital Marketing
+- Branding and Design
+- Ecommerce Development
+- App Development
+- Content Marketing
+- Social Media Management
+- Email Marketing
+- Video Production
+
+/* TECHNOLOGIES */
+Frontend: HTML5, CSS3, JavaScript, Bootstrap, AOS, jQuery
+Backend: Node.js, Python, PHP, Firebase
+Databases: MySQL, MongoDB, Firebase
+CMS: WordPress, Shopify, Custom CMS
+Tools: Google Analytics, Google Ads, SEMrush, Ahrefs, Figma
+
+/* FRAMEWORKS & LIBRARIES */
+- Bootstrap 5.3.3
+- AOS (Animate On Scroll)
+- Google Fonts
+- Bootstrap Icons
+- jQuery
+- Custom JavaScript
+
+/* SOCIAL MEDIA */
+Facebook: https://www.facebook.com/bestwebdeveloper.org
+Instagram: https://www.instagram.com/bestwebdeveloperuk
+
+/* ANALYTICS */
+Traffic Analysis: Google Analytics 4
+Search Performance: Google Search Console
+Ad Management: Google Ads Manager
+SEO Monitoring: SEMrush
+Backlink Analysis: Ahrefs
+
+/* POLICIES */
+Privacy Policy: https://bestwebdeveloper.org/privacy-policy
+Cookie Policy: https://bestwebdeveloper.org/cookie-policy
+Terms and Conditions: https://bestwebdeveloper.org/terms-conditions
+
+/* ACCESSIBILITY STATEMENT */
+Best Web Developer is committed to making the website accessible to all users,
+including those with disabilities. Our website follows WCAG 2.1 Level AA guidelines.
+
+Accessibility Features:
+- Semantic HTML structure
+- ARIA labels and landmarks
+- Keyboard navigation support
+- Color contrast compliance
+- Alt text for all images
+- Readable fonts and spacing
+- Focus indicators
+- Mobile accessibility
+
+If you experience accessibility issues, please contact: hello@bestwebdeveloper.org
+
+/* CONTACT INFORMATION */
+Email: hello@bestwebdeveloper.org
+Phone: +44 7846 109263
+Address: 18 Lyme Road, Leicester, LE2 1QE, United Kingdom
+Website: https://bestwebdeveloper.org
+
+/* LAST UPDATED */
+Version: 2.0
+Date: June 20, 2026
+Status: Active and Current
+
+Thank you for visiting Best Web Developer!

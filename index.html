@@ -31,85 +31,116 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
 <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
 <link href="assets/css/styles.css" rel="stylesheet"/>
-<script type="application/ld+json">{
+
+
+  <script type="application/ld+json">
+    {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
+      "@type": [
+        "Organization",
+        "LocalBusiness"
+      ],
       "@id": "https://bestwebdeveloper.org/#organization",
       "name": "Best Web Developer",
       "url": "https://bestwebdeveloper.org",
-      "logo": "https://bestwebdeveloper.org/assets/images/best-web-developer-logo.png",
-      "sameAs": [
-        "https://bestwebdeveloper.org/"
+      "description": "Premier digital agency offering web design, web development, SEO, digital marketing, and comprehensive digital transformation services.",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://bestwebdeveloper.org/assets/images/logo.png",
+        "width": 250,
+        "height": 70
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://bestwebdeveloper.org/assets/images/digital-marketing-services-partner.webp",
+        "width": 1200,
+        "height": 630
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "18 Lyme Road",
+        "addressLocality": "Leicester",
+        "addressRegion": "Leicestershire",
+        "postalCode": "LE2 1QE",
+        "addressCountry": "GB"
+      },
+      "telephone": "+44 7846 109263",
+      "email": "hello@bestwebdeveloper.org",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      },
+      "areaServed": [
+        {
+          "@type": "Place",
+          "name": "United Kingdom"
+        },
+        {
+          "@type": "Place",
+          "name": "United States"
+        },
+        {
+          "@type": "Place",
+          "name": "Worldwide"
+        }
       ],
-      "description": "Best Web Developer is a web design, development, branding, SEO, and digital marketing agency serving USA and UK clients."
+      "sameAs": [
+        "https://www.facebook.com/bestwebdeveloper.org",
+        "https://www.instagram.com/bestwebdeveloperuk"
+      ],
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+44 7846 109263",
+          "contactType": "Customer Service",
+          "email": "hello@bestwebdeveloper.org",
+          "availableLanguage": [
+            "en-GB",
+            "en-US"
+          ],
+          "areaServed": "Worldwide"
+        },
+        {
+          "@type": "ContactPoint",
+          "telephone": "+44 7846 109263",
+          "contactType": "Sales",
+          "email": "hello@bestwebdeveloper.org"
+        }
+      ]
     },
     {
       "@type": "WebSite",
       "@id": "https://bestwebdeveloper.org/#website",
       "url": "https://bestwebdeveloper.org",
       "name": "Best Web Developer",
+      "description": "Professional web design, development, SEO, and digital marketing services",
       "publisher": {
         "@id": "https://bestwebdeveloper.org/#organization"
       },
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://bestwebdeveloper.org/blog?q={search_term_string}",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://bestwebdeveloper.org/search?q={search_term_string}"
+        },
         "query-input": "required name=search_term_string"
       }
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://bestwebdeveloper.org/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Best Web Developer for Web Design, Development & Marketing",
-          "item": "https://bestwebdeveloper.org/"
-        }
-      ]
     }
   ]
-}</script>
-<script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "Best Web Developer",
-  "url": "https://bestwebdeveloper.org",
-  "logo": "https://bestwebdeveloper.org/assets/images/best-web-developer-logo.png",
-  "image": "https://bestwebdeveloper.org/assets/images/best-web-developer-logo.png",
-  "description": "Premium web design, development, branding, SEO, and digital marketing services for companies that want measurable digital growth.",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "18 Lyme Road",
-    "addressLocality": "Leicester",
-    "addressRegion": "Leicester",
-    "postalCode": "LE2 1QE",
-    "addressCountry": "GB"
-  },
-  "telephone": "+44 7846 109263",
-  "email": "hello@bestwebdeveloper.org",
-  "openingHoursSpecification": [
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-      "opens": "00:00",
-      "closes": "23:59"
-    }
-  ],
-  "sameAs": [
-    "https://www.facebook.com/bestwebdeveloper.org",
-    "https://www.instagram.com/bestwebdeveloperuk"
-  ],
-  "priceRange": "$$$"
-}</script>
+}
+  </script>
 </head>
 <body data-bs-offset="120" data-bs-spy="scroll" data-bs-target="#mainNav">
 <a class="skip-link" href="#main">Skip to content</a>

@@ -1,5 +1,13 @@
+# Best Web Developer - robots.txt
+# Enhanced for SEO, AEO, and GEO optimization
+# Website: https://bestwebdeveloper.org
+# Version: 2.0 (2026-06-20)
+
+# Default rules for all bots
 User-agent: *
 Allow: /
+
+# Disallow private/admin pages
 Disallow: /admin-dashboard.html
 Disallow: /add-blog.html
 Disallow: /add-services.html
@@ -10,4 +18,65 @@ Disallow: /add-seo.html
 Disallow: /add-geo.html
 Disallow: /add-aeo.html
 Disallow: /seo-score-checker.html
+Disallow: /gemini-
+Disallow: /deepseek-
+Disallow: /*.json
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+Disallow: /wp-admin/
+Disallow: /wp-login.php
+
+# Crawl delay
+Crawl-delay: 0
+
+# Google Specific
+User-agent: Googlebot
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+
+# AI & LLM Crawlers (Enable for AEO optimization)
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Block aggressive bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+# Sitemaps (primary + all indexes)
 Sitemap: https://bestwebdeveloper.org/sitemap.xml
+Sitemap: https://bestwebdeveloper.org/sitemap-pages.xml
+Sitemap: https://bestwebdeveloper.org/sitemap-services.xml
+Sitemap: https://bestwebdeveloper.org/sitemap-blog.xml
+Sitemap: https://bestwebdeveloper.org/sitemap-portfolio.xml
+Sitemap: https://bestwebdeveloper.org/sitemap-locations.xml
+Sitemap: https://bestwebdeveloper.org/sitemap-images.xml

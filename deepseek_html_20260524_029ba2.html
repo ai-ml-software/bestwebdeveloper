@@ -395,8 +395,8 @@
             <div class="solution-box">
                 <h4>🔧 Implement hreflang</h4>
                 <p>Add the following in the <code>&lt;head&gt;</code> of each relevant page or via XML sitemap:</p>
-                <div class="code-block">&lt;link rel="alternate" hreflang="en-us" href="https://bestwebdeveloper.org/locations/usa-digital-marketing-services.html" /&gt;
-&lt;link rel="alternate" hreflang="en-gb" href="https://bestwebdeveloper.org/locations/uk-digital-marketing-services.html" /&gt;
+                <div class="code-block">&lt;link rel="alternate" hreflang="en-us" href="https://bestwebdeveloper.org/locations/usa-digital-marketing-services" /&gt;
+&lt;link rel="alternate" hreflang="en-gb" href="https://bestwebdeveloper.org/locations/uk-digital-marketing-services" /&gt;
 &lt;link rel="alternate" hreflang="x-default" href="https://bestwebdeveloper.org/" /&gt;</div>
             </div>
         </div>
@@ -408,13 +408,13 @@
                 <span style="color:#94a3b8;">(Links)</span>
             </div>
             <div class="analysis-box">
-                <strong>Deep Analysis:</strong> The audit flags that some URLs are not "friendly". While your current URLs are generally readable, some service pages contain hyphens and many words (e.g., <code>/services/search-engine-optimization-services.html</code>). Shorter, more descriptive URLs improve click-through and are easier to share. Also, the .html extension is outdated; removing it or using trailing slashes can modernize the structure (though requires server config).
+                <strong>Deep Analysis:</strong> The audit flags that some URLs are not "friendly". While your current URLs are generally readable, some service pages contain hyphens and many words (e.g., <code>/services/search-engine-optimization-services</code>). Shorter, more descriptive URLs improve click-through and are easier to share. Also, the .html extension is outdated; removing it or using trailing slashes can modernize the structure (though requires server config).
             </div>
             <div class="solution-box">
                 <h4>🔧 Recommended Changes (with 301 redirects)</h4>
                 <ul>
-                    <li><code>/services/search-engine-optimization-services.html</code> → <code>/services/seo/</code></li>
-                    <li><code>/services/digital-marketing-services.html</code> → <code>/services/digital-marketing/</code></li>
+                    <li><code>/services/search-engine-optimization-services</code> → <code>/services/seo/</code></li>
+                    <li><code>/services/digital-marketing-services</code> → <code>/services/digital-marketing/</code></li>
                     <li>Keep the structure but remove file extension via URL rewriting if possible.</li>
                 </ul>
                 <p>At minimum, ensure all internal links use the final canonical URL without unnecessary parameters.</p>
@@ -458,16 +458,16 @@ gtag('config', 'G-XXXXXXXXXX');
                 <div class="code-block"># Best Web Developer
 We offer custom web design, SEO, digital marketing, and app development services.
 ## Services
-- Web Design & Development: /services/web-design-development.html
-- SEO Services: /services/search-engine-optimization-services.html
-- PPC Google Ads: /services/ppc-google-ads.html
-- Social Media Marketing: /services/social-media-agency.html
+- Web Design & Development: /services/web-design-development
+- SEO Services: /services/search-engine-optimization-services
+- PPC Google Ads: /services/ppc-google-ads
+- Social Media Marketing: /services/social-media-agency
 ## Locations
-- Phoenix: /locations/phoenix-digital-marketing.html
-- USA Nationwide: /locations/usa-digital-marketing-services.html
+- Phoenix: /locations/phoenix-digital-marketing
+- USA Nationwide: /locations/usa-digital-marketing-services
 ## Blog
-- SEO-Ready Checklist: /blog/seo-ready-website-checklist.html
-- Technical SEO Guide: /blog/technical-seo-site-health.html</div>
+- SEO-Ready Checklist: /blog/seo-ready-website-checklist
+- Technical SEO Guide: /blog/technical-seo-site-health</div>
                 <p>Also add a <code>llms-full.txt</code> with more detailed content for AI crawlers.</p>
             </div>
         </div>

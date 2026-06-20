@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO Audit Report — BestWebDeveloper.org</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #09090f;
+    --surface: #111118;
+    --surface2: #1a1a25;
+    --border: #252535;
+    --accent: #7c6ef2;
+    --accent2: #e85d75;
+    --accent3: #3ecf8e;
+    --accent4: #f5a623;
+    --text: #e8e8f0;
+    --muted: #7878a0;
+    --gap-red: #e85d75;
+    --gap-yellow: #f5a623;
+    --gap-green: #3ecf8e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #0f0f1e 0%, #1a0f2e 50%, #0f1a1e 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 40px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(124,110,242,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(124,110,242,0.15);
+    border: 1px solid rgba(124,110,242,0.4);
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+  header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 800;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+  header p {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 640px;
+  }
+  .header-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .header-stat {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 20px;
+  }
+  .header-stat .num {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .header-stat .label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+    padding: 14px 16px;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  nav a:hover { color: var(--text); border-bottom-color: var(--accent); }
+
+  /* MAIN */
+  main { max-width: 1400px; margin: 0 auto; padding: 40px 40px 80px; }
+
+  /* SECTION */
+  section { margin-bottom: 60px; }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-title .icon {
+    width: 32px; height: 32px;
+    background: rgba(124,110,242,0.15);
+    border: 1px solid rgba(124,110,242,0.3);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .section-sub {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 24px;
+    padding-left: 44px;
+  }
+
+  /* COMPETITOR CARDS */
+  .competitor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .comp-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .comp-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .comp-card.c1::before { background: var(--accent); }
+  .comp-card.c2::before { background: var(--accent2); }
+  .comp-card.c3::before { background: var(--accent3); }
+  .comp-card.c4::before { background: var(--accent4); }
+  .comp-card.c5::before { background: #60c0f0; }
+  .comp-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .comp-card .domain {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .comp-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.06);
+    border-radius: 4px;
+    font-size: 10px;
+    padding: 3px 8px;
+    margin: 2px 2px 2px 0;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* GAP ANALYSIS */
+  .gap-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .gap-table th {
+    background: var(--surface2);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .gap-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(37,37,53,0.5);
+    vertical-align: top;
+  }
+  .gap-table tr:hover td { background: rgba(124,110,242,0.04); }
+  .pill {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-weight: 500;
+  }
+  .pill.high { background: rgba(232,93,117,0.15); color: var(--gap-red); border: 1px solid rgba(232,93,117,0.3); }
+  .pill.med { background: rgba(245,166,35,0.15); color: var(--gap-yellow); border: 1px solid rgba(245,166,35,0.3); }
+  .pill.low { background: rgba(62,207,142,0.15); color: var(--gap-green); border: 1px solid rgba(62,207,142,0.3); }
+  .pill.miss { background: rgba(232,93,117,0.2); color: #ff7a8a; border: 1px solid rgba(232,93,117,0.5); }
+  .pill.present { background: rgba(62,207,142,0.15); color: var(--gap-green); border: 1px solid rgba(62,207,142,0.3); }
+
+  /* PAGES TABLE */
+  .pages-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+  .pages-table th {
+    background: var(--surface2);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 46px;
+    z-index: 50;
+  }
+  .pages-table td {
+    padding: 11px 12px;
+    border-bottom: 1px solid rgba(37,37,53,0.5);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .pages-table tr:hover td { background: rgba(124,110,242,0.04); }
+  .page-url {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+  }
+  .meta-title {
+    font-weight: 500;
+    color: #a8d4ff;
+    margin-bottom: 3px;
+  }
+  .meta-desc {
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .kw-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .kw {
+    background: rgba(124,110,242,0.1);
+    border: 1px solid rgba(124,110,242,0.2);
+    border-radius: 3px;
+    font-size: 10px;
+    padding: 1px 6px;
+    color: #b0a8f8;
+    font-family: 'DM Mono', monospace;
+    white-space: nowrap;
+  }
+  .vol {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent3);
+  }
+  .diff {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+  }
+  .diff.easy { color: var(--gap-green); }
+  .diff.med { color: var(--gap-yellow); }
+  .diff.hard { color: var(--gap-red); }
+
+  /* CATEGORY HEADER */
+  .cat-row td {
+    background: var(--surface2) !important;
+    border-top: 2px solid var(--accent) !important;
+    border-bottom: 1px solid var(--border) !important;
+  }
+  .cat-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* GAPS PAGE */
+  .gap-page-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 14px;
+  }
+  .gap-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .gap-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .gap-card .url-suggest {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .gap-card p {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .gap-card .priority {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+  }
+
+  /* PRIORITY SECTION */
+  .priority-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 12px;
+  }
+  .priority-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .priority-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    min-width: 30px;
+  }
+  .priority-item h4 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .priority-item p { font-size: 12px; color: var(--muted); }
+
+  /* SCROLLABLE TABLE WRAPPER */
+  .table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    overflow-x: auto;
+  }
+
+  /* SUMMARY BOXES */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  @media (max-width: 900px) { .summary-grid { grid-template-columns: repeat(2,1fr); } }
+  .summary-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+  .summary-box .sum-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .summary-box .sum-label { font-size: 12px; color: var(--muted); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 40px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* TOOLTIP-STYLE CHAR COUNT */
+  .char-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .char-ok { color: var(--gap-green); }
+  .char-warn { color: var(--gap-yellow); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">SEO Intelligence Report · May 2026</div>
+  <h1>BestWebDeveloper.org<br>Full SEO Audit</h1>
+  <p>Deep keyword research, competitor benchmarking, content gap analysis, and optimised meta titles + descriptions for all 60 pages.</p>
+  <div class="header-meta">
+    <div class="header-stat"><div class="num">60</div><div class="label">Pages Audited</div></div>
+    <div class="header-stat"><div class="num">18</div><div class="label">Gap Pages Found</div></div>
+    <div class="header-stat"><div class="num">5</div><div class="label">Competitors Mapped</div></div>
+    <div class="header-stat"><div class="num">240+</div><div class="label">Keywords Targeted</div></div>
+  </div>
+</header>
+
+<nav>
+  <a href="#competitors">Competitors</a>
+  <a href="#gap-analysis">Gap Analysis</a>
+  <a href="#meta-all">All Pages Meta</a>
+  <a href="#missing-pages">Missing Pages</a>
+  <a href="#priority">Action Priority</a>
+</nav>
+
+<main>
+
+<!-- ====================================================
+     COMPETITOR ANALYSIS
+===================================================== -->
+<section id="competitors">
+  <div class="section-title"><span class="icon">🏆</span> Competitor Analysis</div>
+  <div class="section-sub">Direct and indirect competitors in web development, digital marketing & SEO agency space.</div>
+
+  <div class="competitor-grid">
+    <div class="comp-card c1">
+      <h3>Thrive Internet Marketing Agency</h3>
+      <div class="domain">thriveagency.com</div>
+      <p style="color:var(--muted);font-size:12px;margin-bottom:10px;">Full-service digital agency — #1 ranked for many web design + SEO combos. Huge content library, 1,000+ blog posts, strong E-E-A-T.</p>
+      <span class="comp-tag">web design</span><span class="comp-tag">SEO</span><span class="comp-tag">PPC</span><span class="comp-tag">social media</span><span class="comp-tag">email marketing</span>
+      <div style="margin-top:12px;font-size:11px;color:var(--muted);">⚡ Strength: Reviews, case studies, city location pages</div>
+    </div>
+    <div class="comp-card c2">
+      <h3>WebFX</h3>
+      <div class="domain">webfx.com</div>
+      <p style="color:var(--muted);font-size:12px;margin-bottom:10px;">Enterprise-grade agency with transparent pricing pages. Dominates "web design pricing" and "SEO cost" keywords.</p>
+      <span class="comp-tag">pricing transparency</span><span class="comp-tag">ROI calculators</span><span class="comp-tag">enterprise SEO</span>
+      <div style="margin-top:12px;font-size:11px;color:var(--muted);">⚡ Strength: Pricing pages, ROI tools, US-wide location pages</div>
+    </div>
+    <div class="comp-card c3">
+      <h3>Lounge Lizard</h3>
+      <div class="domain">loungelizard.com</div>
+      <p style="color:var(--muted);font-size:12px;margin-bottom:10px;">Design-first agency. Ranks well for brand identity, UI/UX, and mobile app keywords since 1998.</p>
+      <span class="comp-tag">brand identity</span><span class="comp-tag">UI/UX</span><span class="comp-tag">mobile apps</span><span class="comp-tag">AEO</span>
+      <div style="margin-top:12px;font-size:11px;color:var(--muted);">⚡ Strength: Long tenure, deep portfolio, AEO/GEO content</div>
+    </div>
+    <div class="comp-card c4">
+      <h3>Victorious SEO</h3>
+      <div class="domain">victorious.com</div>
+      <p style="color:var(--muted);font-size:12px;margin-bottom:10px;">Pure SEO agency. Dominates technical SEO, on-page SEO, and off-page keywords. Best-in-class SEO content strategy.</p>
+      <span class="comp-tag">technical SEO</span><span class="comp-tag">on-page SEO</span><span class="comp-tag">off-page SEO</span><span class="comp-tag">local SEO</span>
+      <div style="margin-top:12px;font-size:11px;color:var(--muted);">⚡ Strength: Deep SEO pillar pages, data-driven reports</div>
+    </div>
+    <div class="comp-card c5">
+      <h3>Lokal / Oyova</h3>
+      <div class="domain">oyova.com</div>
+      <p style="color:var(--muted);font-size:12px;margin-bottom:10px;">Mid-size full-stack agency ranking for local city-specific digital marketing pages (Jacksonville, Florida etc.).</p>
+      <span class="comp-tag">local SEO</span><span class="comp-tag">ecommerce</span><span class="comp-tag">PPC</span><span class="comp-tag">web dev</span>
+      <div style="margin-top:12px;font-size:11px;color:var(--muted);">⚡ Strength: Local intent pages, Shopify + WordPress combo</div>
+    </div>
+  </div>
+
+  <!-- Competitor Feature Matrix -->
+  <div class="table-wrap">
+    <table class="gap-table">
+      <thead>
+        <tr>
+          <th>Feature / Content Type</th>
+          <th>BestWebDeveloper.org</th>
+          <th>Thrive Agency</th>
+          <th>WebFX</th>
+          <th>Lounge Lizard</th>
+          <th>Victorious</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>City Location Pages</td><td><span class="pill med">3 pages only</span></td><td><span class="pill present">✓ 50+ cities</span></td><td><span class="pill present">✓ 30+ cities</span></td><td><span class="pill present">✓ 15+ cities</span></td><td><span class="pill present">✓ 20+ cities</span></td></tr>
+        <tr><td>Case Studies / Portfolio</td><td><span class="pill med">6 items</span></td><td><span class="pill present">✓ 100+</span></td><td><span class="pill present">✓ 50+</span></td><td><span class="pill present">✓ 40+</span></td><td><span class="pill present">✓ 30+</span></td></tr>
+        <tr><td>Transparent Pricing Page</td><td><span class="pill present">✓ Present</span></td><td><span class="pill present">✓ Present</span></td><td><span class="pill present">✓ Detailed</span></td><td><span class="pill miss">✗ Missing</span></td><td><span class="pill miss">✗ Missing</span></td></tr>
+        <tr><td>Blog / Content Hub</td><td><span class="pill med">9 posts only</span></td><td><span class="pill present">✓ 1,000+</span></td><td><span class="pill present">✓ 500+</span></td><td><span class="pill present">✓ 200+</span></td><td><span class="pill present">✓ 300+</span></td></tr>
+        <tr><td>Music / Artist Services</td><td><span class="pill present">✓ Unique niche</span></td><td><span class="pill miss">✗</span></td><td><span class="pill miss">✗</span></td><td><span class="pill miss">✗</span></td><td><span class="pill miss">✗</span></td></tr>
+        <tr><td>GEO / AI Search Optimization</td><td><span class="pill present">✓ Blog post</span></td><td><span class="pill miss">✗</span></td><td><span class="pill med">Partial</span></td><td><span class="pill present">✓ AEO page</span></td><td><span class="pill miss">✗</span></td></tr>
+        <tr><td>FAQ Page</td><td><span class="pill present">✓ Present</span></td><td><span class="pill present">✓ Present</span></td><td><span class="pill present">✓ Present</span></td><td><span class="pill present">✓ Present</span></td><td><span class="pill present">✓ Present</span></td></tr>
+        <tr><td>Testimonials Page</td><td><span class="pill present">✓ Present</span></td><td><span class="pill present">✓ Present</span></td><td><span class="pill present">✓ Present</span></td><td><span class="pill present">✓ Present</span></td><td><span class="pill present">✓ Present</span></td></tr>
+        <tr><td>UK-Specific Service Page</td><td><span class="pill present">✓ Present</span></td><td><span class="pill miss">✗</span></td><td><span class="pill miss">✗</span></td><td><span class="pill miss">✗</span></td><td><span class="pill miss">✗</span></td></tr>
+        <tr><td>Non-Profit Services Page</td><td><span class="pill present">✓ Present</span></td><td><span class="pill miss">✗</span></td><td><span class="pill miss">✗</span></td><td><span class="pill present">✓ Present</span></td><td><span class="pill miss">✗</span></td></tr>
+        <tr><td>Android App Dev Page</td><td><span class="pill present">✓ Present</span></td><td><span class="pill present">✓ Present</span></td><td><span class="pill miss">✗</span></td><td><span class="pill present">✓ Present</span></td><td><span class="pill miss">✗</span></td></tr>
+        <tr><td>Streaming / Music Platform Pages</td><td><span class="pill present">✓ Unique</span></td><td><span class="pill miss">✗</span></td><td><span class="pill miss">✗</span></td><td><span class="pill miss">✗</span></td><td><span class="pill miss">✗</span></td></tr>
+        <tr><td>Schema / Structured Data</td><td><span class="pill miss">Likely missing</span></td><td><span class="pill present">✓ Rich</span></td><td><span class="pill present">✓ Rich</span></td><td><span class="pill present">✓ Rich</span></td><td><span class="pill present">✓ Rich</span></td></tr>
+        <tr><td>Core Web Vitals Optimization</td><td><span class="pill miss">Unknown</span></td><td><span class="pill present">✓ Documented</span></td><td><span class="pill present">✓ Documented</span></td><td><span class="pill present">✓ Documented</span></td><td><span class="pill present">✓ Documented</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ====================================================
+     GAP ANALYSIS
+===================================================== -->
+<section id="gap-analysis">
+  <div class="section-title"><span class="icon">🔍</span> Keyword Gap Analysis</div>
+  <div class="section-sub">Keywords and content topics competitors rank for that BestWebDeveloper.org is missing or under-optimised for.</div>
+
+  <div class="summary-grid">
+    <div class="summary-box"><div class="sum-num" style="color:var(--gap-red)">18</div><div class="sum-label">Missing Page Types</div></div>
+    <div class="summary-box"><div class="sum-num" style="color:var(--gap-yellow)">12</div><div class="sum-label">Under-optimised Pages</div></div>
+    <div class="summary-box"><div class="sum-num" style="color:var(--accent)">45+</div><div class="sum-label">Untapped Keywords</div></div>
+    <div class="summary-box"><div class="sum-num" style="color:var(--gap-green)">5</div><div class="sum-label">Unique Advantages</div></div>
+  </div>
+
+  <div class="table-wrap" style="margin-bottom:32px;">
+    <table class="gap-table">
+      <thead>
+        <tr>
+          <th>Keyword / Topic Gap</th>
+          <th>Monthly Searches</th>
+          <th>Difficulty</th>
+          <th>Competitors Ranking</th>
+          <th>Recommended Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>web design agency near me</strong></td>
+          <td class="vol">40,500/mo</td>
+          <td class="diff hard">Hard (78)</td>
+          <td>Thrive, WebFX, Oyova</td>
+          <td>Add more location pages (Dallas, NYC, LA, Chicago)</td>
+        </tr>
+        <tr>
+          <td><strong>affordable web development services</strong></td>
+          <td class="vol">8,100/mo</td>
+          <td class="diff med">Med (55)</td>
+          <td>Thrive, WebFX, Lounge Lizard</td>
+          <td>Add "affordable" angle to pricing page & homepage</td>
+        </tr>
+        <tr>
+          <td><strong>ecommerce SEO agency</strong></td>
+          <td class="vol">6,600/mo</td>
+          <td class="diff hard">Hard (72)</td>
+          <td>Victorious, WebFX, Thrive</td>
+          <td>Create dedicated ecommerce SEO landing page</td>
+        </tr>
+        <tr>
+          <td><strong>iOS app development company</strong></td>
+          <td class="vol">5,400/mo</td>
+          <td class="diff med">Med (60)</td>
+          <td>Lounge Lizard, Thrive</td>
+          <td>Add iOS app development service page (only Android exists)</td>
+        </tr>
+        <tr>
+          <td><strong>white label SEO services</strong></td>
+          <td class="vol">4,400/mo</td>
+          <td class="diff med">Med (58)</td>
+          <td>WebFX, Victorious</td>
+          <td>Create white label SEO page for agency partners</td>
+        </tr>
+        <tr>
+          <td><strong>web design cost / pricing</strong></td>
+          <td class="vol">33,100/mo</td>
+          <td class="diff hard">Hard (71)</td>
+          <td>WebFX, Thrive, Forbes</td>
+          <td>Expand pricing page with detailed breakdown blog post</td>
+        </tr>
+        <tr>
+          <td><strong>Shopify SEO agency</strong></td>
+          <td class="vol">3,600/mo</td>
+          <td class="diff med">Med (52)</td>
+          <td>Victorious, Oyova</td>
+          <td>Separate Shopify SEO page (blog post exists, page doesn't)</td>
+        </tr>
+        <tr>
+          <td><strong>social media management services</strong></td>
+          <td class="vol">18,100/mo</td>
+          <td class="diff med">Med (65)</td>
+          <td>Thrive, WebFX, Lounge Lizard</td>
+          <td>Expand social media agency page with more sub-services</td>
+        </tr>
+        <tr>
+          <td><strong>Google Ads management agency</strong></td>
+          <td class="vol">9,900/mo</td>
+          <td class="diff hard">Hard (69)</td>
+          <td>Thrive, WebFX, Victorious</td>
+          <td>Expand PPC/Google Ads page with case studies</td>
+        </tr>
+        <tr>
+          <td><strong>music promotion services online</strong></td>
+          <td class="vol">2,900/mo</td>
+          <td class="diff easy">Easy (32)</td>
+          <td>None of main competitors</td>
+          <td>🟢 LOW COMPETITION NICHE — Expand music marketing hub</td>
+        </tr>
+        <tr>
+          <td><strong>Spotify playlist promotion</strong></td>
+          <td class="vol">5,400/mo</td>
+          <td class="diff easy">Easy (28)</td>
+          <td>None of main competitors</td>
+          <td>🟢 LOW COMPETITION — Optimise Spotify streaming page</td>
+        </tr>
+        <tr>
+          <td><strong>nonprofit website design</strong></td>
+          <td class="vol">2,400/mo</td>
+          <td class="diff easy">Easy (34)</td>
+          <td>Lounge Lizard only</td>
+          <td>🟢 Expand non-profit page with pricing, examples</td>
+        </tr>
+        <tr>
+          <td><strong>digital marketing agency Phoenix AZ</strong></td>
+          <td class="vol">1,900/mo</td>
+          <td class="diff med">Med (48)</td>
+          <td>Oyova, local agencies</td>
+          <td>Strengthen Phoenix page with local schema, reviews</td>
+        </tr>
+        <tr>
+          <td><strong>AI search optimisation / GEO</strong></td>
+          <td class="vol">2,200/mo</td>
+          <td class="diff easy">Easy (25)</td>
+          <td>Lounge Lizard only</td>
+          <td>🟢 Create GEO service page (blog exists only)</td>
+        </tr>
+        <tr>
+          <td><strong>WordPress maintenance services</strong></td>
+          <td class="vol">4,400/mo</td>
+          <td class="diff med">Med (50)</td>
+          <td>Thrive, WebFX</td>
+          <td>Add WP maintenance/support page alongside dev page</td>
+        </tr>
+        <tr>
+          <td><strong>email marketing agency</strong></td>
+          <td class="vol">12,100/mo</td>
+          <td class="diff hard">Hard (70)</td>
+          <td>Thrive, WebFX, Victorious</td>
+          <td>Expand email marketing page with funnel/automation content</td>
+        </tr>
+        <tr>
+          <td><strong>responsive web design services</strong></td>
+          <td class="vol">6,600/mo</td>
+          <td class="diff med">Med (62)</td>
+          <td>Thrive, WebFX, all</td>
+          <td>Merge blog post into service page content expansion</td>
+        </tr>
+        <tr>
+          <td><strong>YouTube channel management</strong></td>
+          <td class="vol">3,200/mo</td>
+          <td class="diff easy">Easy (38)</td>
+          <td>None of main competitors</td>
+          <td>🟢 Expand YouTube pages — currently thin content</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--gap-green);margin-bottom:12px;">🟢 Your Unique Competitive Advantages (Protect & Expand)</h3>
+  <div class="gap-page-grid">
+    <div class="gap-card" style="border-color:rgba(62,207,142,0.3);">
+      <h4>Music & Artist Services</h4>
+      <p>No major competitor covers Spotify streaming promotion, SoundCloud, music marketing, or artist development. This is a blue-ocean niche with loyal, high-intent buyers.</p>
+      <div class="priority"><span class="pill low">Expand urgently</span></div>
+    </div>
+    <div class="gap-card" style="border-color:rgba(62,207,142,0.3);">
+      <h4>GEO / AI-Search Optimisation</h4>
+      <p>You have a blog post on geo-optimization for AI search. Most competitors lack this. Create a full service page to own this emerging category.</p>
+      <div class="priority"><span class="pill low">Create service page</span></div>
+    </div>
+    <div class="gap-card" style="border-color:rgba(62,207,142,0.3);">
+      <h4>UK + USA Location Coverage</h4>
+      <p>Having both a UK and USA landing page gives geographic breadth no niche competitor offers. Expand to Canada, Australia.</p>
+      <div class="priority"><span class="pill low">Expand geo pages</span></div>
+    </div>
+    <div class="gap-card" style="border-color:rgba(62,207,142,0.3);">
+      <h4>Non-Profit + Illustration Services</h4>
+      <p>Illustration services and non-profit web design are rare differentiators. Neither Thrive nor WebFX offers illustration — lean into it.</p>
+      <div class="priority"><span class="pill low">Differentiate & expand</span></div>
+    </div>
+    <div class="gap-card" style="border-color:rgba(62,207,142,0.3);">
+      <h4>Transparent Pricing Page</h4>
+      <p>Unlike Lounge Lizard and Victorious, you have a pricing page. This is a conversion advantage — add package comparison tables.</p>
+      <div class="priority"><span class="pill low">Enhance with tables</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================
+     ALL PAGES META TITLES & DESCRIPTIONS
+===================================================== -->
+<section id="meta-all">
+  <div class="section-title"><span class="icon">🏷️</span> All Pages — Meta Titles & Descriptions</div>
+  <div class="section-sub">Optimised meta titles (50–60 chars) and descriptions (140–160 chars) for all 60 pages. Primary keywords listed per page.</div>
+
+  <div class="table-wrap">
+    <table class="pages-table">
+      <thead>
+        <tr>
+          <th style="min-width:160px;">Page URL</th>
+          <th style="min-width:280px;">Meta Title & Description</th>
+          <th style="min-width:200px;">Primary Keywords</th>
+          <th style="min-width:80px;">Search Vol.</th>
+          <th style="min-width:60px;">Difficulty</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- CORE PAGES -->
+        <tr class="cat-row"><td colspan="5"><span class="cat-label">📌 Core Pages</span></td></tr>
+
+        <tr>
+          <td><div class="page-url">/</div></td>
+          <td>
+            <div class="meta-title">Best Web Developer | SEO, Design & Digital Marketing</div>
+            <div class="meta-desc">Award-winning web development & digital marketing agency. We build fast, SEO-ready websites that rank, convert, and grow your business. Get a free quote today.</div>
+            <div class="char-count"><span class="char-ok">Title: 55 chars ✓</span> · <span class="char-ok">Desc: 156 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">best web developer</span><span class="kw">web development agency</span><span class="kw">digital marketing</span></div></td>
+          <td class="vol">27,100</td>
+          <td class="diff hard">Hard</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/about.html</div></td>
+          <td>
+            <div class="meta-title">About Us | Expert Web & Digital Marketing Team</div>
+            <div class="meta-desc">Meet the passionate team behind BestWebDeveloper.org. We're SEO strategists, designers, and developers dedicated to growing brands online since day one.</div>
+            <div class="char-count"><span class="char-ok">Title: 48 chars ✓</span> · <span class="char-ok">Desc: 154 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">about web agency</span><span class="kw">digital marketing team</span><span class="kw">who we are</span></div></td>
+          <td class="vol">—</td>
+          <td class="diff easy">Low</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services.html</div></td>
+          <td>
+            <div class="meta-title">Our Services | Web Design, SEO & Digital Marketing</div>
+            <div class="meta-desc">Explore our full suite of digital services — web design, SEO, PPC, content marketing, social media, branding, app development, and music marketing.</div>
+            <div class="char-count"><span class="char-ok">Title: 51 chars ✓</span> · <span class="char-ok">Desc: 148 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">digital marketing services</span><span class="kw">web design services</span><span class="kw">SEO agency</span></div></td>
+          <td class="vol">18,100</td>
+          <td class="diff hard">Hard</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/portfolio.html</div></td>
+          <td>
+            <div class="meta-title">Portfolio | Web Design & Digital Marketing Work</div>
+            <div class="meta-desc">Browse our portfolio of successful web design, SEO, ecommerce, branding, and mobile app projects. See the results we've achieved for real clients.</div>
+            <div class="char-count"><span class="char-ok">Title: 48 chars ✓</span> · <span class="char-ok">Desc: 149 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">web design portfolio</span><span class="kw">digital agency case studies</span></div></td>
+          <td class="vol">4,400</td>
+          <td class="diff med">Med</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/pricing.html</div></td>
+          <td>
+            <div class="meta-title">Pricing | Affordable Web Design & SEO Packages</div>
+            <div class="meta-desc">Transparent, affordable pricing for web design, SEO, and digital marketing. Choose the right package for your business — no hidden fees, no surprises.</div>
+            <div class="char-count"><span class="char-ok">Title: 48 chars ✓</span> · <span class="char-ok">Desc: 153 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">web design pricing</span><span class="kw">SEO packages cost</span><span class="kw">affordable agency</span></div></td>
+          <td class="vol">33,100</td>
+          <td class="diff hard">Hard</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/contact.html</div></td>
+          <td>
+            <div class="meta-title">Contact Us | Get a Free Web & SEO Consultation</div>
+            <div class="meta-desc">Ready to grow your business online? Contact BestWebDeveloper.org for a free consultation on web design, SEO, digital marketing, or app development.</div>
+            <div class="char-count"><span class="char-ok">Title: 49 chars ✓</span> · <span class="char-ok">Desc: 152 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">contact web agency</span><span class="kw">free SEO consultation</span></div></td>
+          <td class="vol">—</td>
+          <td class="diff easy">Low</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/blog.html</div></td>
+          <td>
+            <div class="meta-title">Blog | Web Design, SEO & Marketing Insights</div>
+            <div class="meta-desc">Actionable articles on web design, SEO strategy, digital marketing trends, email automation, and more. Stay ahead of the curve with BestWebDeveloper.org.</div>
+            <div class="char-count"><span class="char-ok">Title: 46 chars ✓</span> · <span class="char-ok">Desc: 157 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">web design blog</span><span class="kw">SEO tips</span><span class="kw">digital marketing blog</span></div></td>
+          <td class="vol">6,600</td>
+          <td class="diff med">Med</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/faq.html</div></td>
+          <td>
+            <div class="meta-title">FAQ | Web Development & Digital Marketing Questions</div>
+            <div class="meta-desc">Got questions? We have answers. Explore frequently asked questions about our web design, SEO, PPC, branding, and digital marketing services.</div>
+            <div class="char-count"><span class="char-ok">Title: 52 chars ✓</span> · <span class="char-ok">Desc: 144 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">web design FAQ</span><span class="kw">SEO questions</span></div></td>
+          <td class="vol">—</td>
+          <td class="diff easy">Low</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/testimonials.html</div></td>
+          <td>
+            <div class="meta-title">Client Reviews & Testimonials | BestWebDeveloper</div>
+            <div class="meta-desc">Don't just take our word for it. Read real testimonials from businesses we've helped with web design, SEO, digital marketing, and app development.</div>
+            <div class="char-count"><span class="char-ok">Title: 49 chars ✓</span> · <span class="char-ok">Desc: 151 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">web agency reviews</span><span class="kw">client testimonials</span></div></td>
+          <td class="vol">—</td>
+          <td class="diff easy">Low</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/sitemap.html</div></td>
+          <td>
+            <div class="meta-title">Sitemap | BestWebDeveloper.org All Pages</div>
+            <div class="meta-desc">A complete HTML sitemap of all BestWebDeveloper.org pages — services, portfolio, blog posts, location pages, and legal information.</div>
+            <div class="char-count"><span class="char-ok">Title: 41 chars ✓</span> · <span class="char-ok">Desc: 136 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">sitemap</span></div></td>
+          <td class="vol">—</td>
+          <td class="diff easy">N/A</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/404.html</div></td>
+          <td>
+            <div class="meta-title">Page Not Found | BestWebDeveloper.org</div>
+            <div class="meta-desc">Oops! The page you're looking for doesn't exist. Head back to our homepage or explore our web design, SEO, and digital marketing services.</div>
+            <div class="char-count"><span class="char-ok">Title: 39 chars ✓</span> · <span class="char-ok">Desc: 141 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">404 not found</span></div></td>
+          <td class="vol">—</td>
+          <td class="diff easy">N/A</td>
+        </tr>
+
+        <!-- LEGAL PAGES -->
+        <tr class="cat-row"><td colspan="5"><span class="cat-label">⚖️ Legal & Policy Pages</span></td></tr>
+
+        <tr>
+          <td><div class="page-url">/privacy-policy.html</div></td>
+          <td>
+            <div class="meta-title">Privacy Policy | BestWebDeveloper.org</div>
+            <div class="meta-desc">Read our privacy policy to understand how BestWebDeveloper.org collects, uses, and protects your personal data in compliance with GDPR and CCPA.</div>
+            <div class="char-count"><span class="char-ok">Title: 39 chars ✓</span> · <span class="char-ok">Desc: 148 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">privacy policy</span><span class="kw">GDPR compliance</span></div></td>
+          <td class="vol">—</td>
+          <td class="diff easy">N/A</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/terms-conditions.html</div></td>
+          <td>
+            <div class="meta-title">Terms & Conditions | BestWebDeveloper.org</div>
+            <div class="meta-desc">Review the terms and conditions governing use of BestWebDeveloper.org services, website access, and engagement with our digital marketing team.</div>
+            <div class="char-count"><span class="char-ok">Title: 43 chars ✓</span> · <span class="char-ok">Desc: 147 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">terms and conditions</span></div></td>
+          <td class="vol">—</td>
+          <td class="diff easy">N/A</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/cookie-policy.html</div></td>
+          <td>
+            <div class="meta-title">Cookie Policy | BestWebDeveloper.org</div>
+            <div class="meta-desc">Our cookie policy explains what cookies we use, why we use them, and how you can control your cookie preferences on BestWebDeveloper.org.</div>
+            <div class="char-count"><span class="char-ok">Title: 39 chars ✓</span> · <span class="char-ok">Desc: 140 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">cookie policy</span></div></td>
+          <td class="vol">—</td>
+          <td class="diff easy">N/A</td>
+        </tr>
+
+        <!-- SERVICE PAGES -->
+        <tr class="cat-row"><td colspan="5"><span class="cat-label">⚙️ Service Pages — Web Development</span></td></tr>
+
+        <tr>
+          <td><div class="page-url">/services/web-design-development.html</div></td>
+          <td>
+            <div class="meta-title">Web Design & Development Services | Fast, SEO-Ready</div>
+            <div class="meta-desc">Get a stunning, high-performance website built for speed, conversions, and SEO. Our web design and development team delivers results for businesses of all sizes.</div>
+            <div class="char-count"><span class="char-ok">Title: 52 chars ✓</span> · <span class="char-ok">Desc: 160 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">web design services</span><span class="kw">web development company</span><span class="kw">custom website design</span></div></td>
+          <td class="vol">22,200</td>
+          <td class="diff hard">Hard</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/web-development.html</div></td>
+          <td>
+            <div class="meta-title">Web Development Services | Custom Websites That Convert</div>
+            <div class="meta-desc">We build fast, secure, and scalable websites using modern technologies. From simple business sites to complex web apps — our developers have you covered.</div>
+            <div class="char-count"><span class="char-ok">Title: 55 chars ✓</span> · <span class="char-ok">Desc: 154 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">web development services</span><span class="kw">custom website development</span><span class="kw">website developer</span></div></td>
+          <td class="vol">14,800</td>
+          <td class="diff hard">Hard</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/wordpress-development.html</div></td>
+          <td>
+            <div class="meta-title">WordPress Development Services | Expert WP Developers</div>
+            <div class="meta-desc">Custom WordPress websites, theme development, plugin integration, and ongoing maintenance. Get an SEO-optimised WordPress site that grows your business.</div>
+            <div class="char-count"><span class="char-ok">Title: 54 chars ✓</span> · <span class="char-ok">Desc: 153 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">WordPress development services</span><span class="kw">WordPress developer</span><span class="kw">custom WordPress site</span></div></td>
+          <td class="vol">9,900</td>
+          <td class="diff med">Med</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/ecommerce-development.html</div></td>
+          <td>
+            <div class="meta-title">Ecommerce Development | Shopify, WooCommerce & More</div>
+            <div class="meta-desc">Launch or scale your online store with our expert ecommerce development team. We build Shopify, WooCommerce, and custom ecommerce solutions that sell.</div>
+            <div class="char-count"><span class="char-ok">Title: 51 chars ✓</span> · <span class="char-ok">Desc: 151 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">ecommerce development</span><span class="kw">Shopify developer</span><span class="kw">WooCommerce development</span></div></td>
+          <td class="vol">8,100</td>
+          <td class="diff med">Med</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/android-app-development.html</div></td>
+          <td>
+            <div class="meta-title">Android App Development Services | Custom Apps Built Fast</div>
+            <div class="meta-desc">Expert Android app development for businesses and startups. We design, build, and launch powerful Android apps with clean UX and scalable architecture.</div>
+            <div class="char-count"><span class="char-warn">Title: 58 chars ✓</span> · <span class="char-ok">Desc: 153 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">Android app development</span><span class="kw">Android app developer</span><span class="kw">mobile app company</span></div></td>
+          <td class="vol">5,400</td>
+          <td class="diff med">Med</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/ui-ux-design.html</div></td>
+          <td>
+            <div class="meta-title">UI/UX Design Services | User-Centred Digital Design</div>
+            <div class="meta-desc">Transform user experiences with our expert UI/UX design team. We create intuitive, beautiful interfaces that boost engagement and reduce bounce rates.</div>
+            <div class="char-count"><span class="char-ok">Title: 52 chars ✓</span> · <span class="char-ok">Desc: 152 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">UI UX design services</span><span class="kw">user experience design</span><span class="kw">UX agency</span></div></td>
+          <td class="vol">6,600</td>
+          <td class="diff med">Med</td>
+        </tr>
+
+        <!-- SEO SERVICES -->
+        <tr class="cat-row"><td colspan="5"><span class="cat-label">🔎 Service Pages — SEO</span></td></tr>
+
+        <tr>
+          <td><div class="page-url">/services/search-engine-optimization-services.html</div></td>
+          <td>
+            <div class="meta-title">SEO Services | Rank Higher, Get More Organic Traffic</div>
+            <div class="meta-desc">Proven SEO services that increase your rankings, drive organic traffic, and grow revenue. On-page, off-page, technical SEO — all in one place.</div>
+            <div class="char-count"><span class="char-ok">Title: 53 chars ✓</span> · <span class="char-ok">Desc: 144 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">SEO services</span><span class="kw">search engine optimization</span><span class="kw">SEO agency</span></div></td>
+          <td class="vol">33,100</td>
+          <td class="diff hard">Hard</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/on-page-seo-services.html</div></td>
+          <td>
+            <div class="meta-title">On-Page SEO Services | Optimise Every Page to Rank</div>
+            <div class="meta-desc">Expert on-page SEO services covering keyword optimisation, meta tags, content structure, internal linking, and more to improve your Google rankings fast.</div>
+            <div class="char-count"><span class="char-ok">Title: 51 chars ✓</span> · <span class="char-ok">Desc: 155 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">on-page SEO services</span><span class="kw">on-page optimisation</span><span class="kw">meta tag optimisation</span></div></td>
+          <td class="vol">4,400</td>
+          <td class="diff med">Med</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/off-page-seo-services.html</div></td>
+          <td>
+            <div class="meta-title">Off-Page SEO Services | Link Building & Authority Growth</div>
+            <div class="meta-desc">Build domain authority and earn high-quality backlinks with our off-page SEO services. We use white-hat link building strategies that stand the test of time.</div>
+            <div class="char-count"><span class="char-ok">Title: 56 chars ✓</span> · <span class="char-ok">Desc: 159 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">off-page SEO services</span><span class="kw">link building services</span><span class="kw">domain authority</span></div></td>
+          <td class="vol">3,600</td>
+          <td class="diff med">Med</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/technical-seo-services.html</div></td>
+          <td>
+            <div class="meta-title">Technical SEO Services | Site Health & Speed Optimisation</div>
+            <div class="meta-desc">Fix crawl errors, improve Core Web Vitals, optimise site structure, and boost indexation with our technical SEO audit and implementation services.</div>
+            <div class="char-count"><span class="char-warn">Title: 57 chars ✓</span> · <span class="char-ok">Desc: 148 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">technical SEO services</span><span class="kw">site audit</span><span class="kw">Core Web Vitals</span><span class="kw">crawl errors</span></div></td>
+          <td class="vol">5,400</td>
+          <td class="diff med">Med</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/local-seo-services.html</div></td>
+          <td>
+            <div class="meta-title">Local SEO Services | Rank in Your City & Attract Leads</div>
+            <div class="meta-desc">Dominate local search results with our local SEO services. We optimise your Google Business Profile, citations, and local content to drive nearby customers.</div>
+            <div class="char-count"><span class="char-ok">Title: 55 chars ✓</span> · <span class="char-ok">Desc: 156 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">local SEO services</span><span class="kw">Google Business Profile</span><span class="kw">near me SEO</span></div></td>
+          <td class="vol">9,900</td>
+          <td class="diff hard">Hard</td>
+        </tr>
+
+        <!-- DIGITAL MARKETING SERVICES -->
+        <tr class="cat-row"><td colspan="5"><span class="cat-label">📣 Service Pages — Digital Marketing</span></td></tr>
+
+        <tr>
+          <td><div class="page-url">/services/digital-marketing-services.html</div></td>
+          <td>
+            <div class="meta-title">Digital Marketing Services | Grow Your Brand Online</div>
+            <div class="meta-desc">Full-service digital marketing agency offering SEO, PPC, social media, content marketing, email campaigns, and brand strategy to grow your business online.</div>
+            <div class="char-count"><span class="char-ok">Title: 52 chars ✓</span> · <span class="char-ok">Desc: 158 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">digital marketing services</span><span class="kw">online marketing agency</span></div></td>
+          <td class="vol">18,100</td>
+          <td class="diff hard">Hard</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/ppc-google-ads.html</div></td>
+          <td>
+            <div class="meta-title">PPC & Google Ads Management | Get More Clicks & Leads</div>
+            <div class="meta-desc">Maximise your ad spend with expert PPC and Google Ads management. We create targeted campaigns that drive qualified traffic and lower your cost-per-click.</div>
+            <div class="char-count"><span class="char-ok">Title: 53 chars ✓</span> · <span class="char-ok">Desc: 155 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">PPC management</span><span class="kw">Google Ads agency</span><span class="kw">pay per click services</span></div></td>
+          <td class="vol">9,900</td>
+          <td class="diff hard">Hard</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/content-marketing-services.html</div></td>
+          <td>
+            <div class="meta-title">Content Marketing Services | Build Authority & Drive Traffic</div>
+            <div class="meta-desc">From blog strategy to long-form content and pillar pages — our content marketing services build authority, attract backlinks, and generate leads over time.</div>
+            <div class="char-count"><span class="char-warn">Title: 60 chars ✓</span> · <span class="char-ok">Desc: 157 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">content marketing services</span><span class="kw">blog writing agency</span><span class="kw">content strategy</span></div></td>
+          <td class="vol">8,100</td>
+          <td class="diff med">Med</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/social-media-agency.html</div></td>
+          <td>
+            <div class="meta-title">Social Media Agency | Manage, Grow & Engage Your Audience</div>
+            <div class="meta-desc">Our social media agency creates, schedules, and manages content that builds your brand's community and drives real engagement across all major platforms.</div>
+            <div class="char-count"><span class="char-warn">Title: 58 chars ✓</span> · <span class="char-ok">Desc: 153 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">social media agency</span><span class="kw">social media management</span><span class="kw">social media marketing</span></div></td>
+          <td class="vol">18,100</td>
+          <td class="diff hard">Hard</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/email-marketing-near-me.html</div></td>
+          <td>
+            <div class="meta-title">Email Marketing Services | Campaigns That Convert</div>
+            <div class="meta-desc">Drive sales with targeted email marketing campaigns. We design, write, and automate email sequences that nurture leads and turn subscribers into customers.</div>
+            <div class="char-count"><span class="char-ok">Title: 50 chars ✓</span> · <span class="char-ok">Desc: 156 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">email marketing services</span><span class="kw">email campaign agency</span><span class="kw">email automation</span></div></td>
+          <td class="vol">12,100</td>
+          <td class="diff hard">Hard</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/youtube-ads.html</div></td>
+          <td>
+            <div class="meta-title">YouTube Ads Management | Video Ad Campaigns That Work</div>
+            <div class="meta-desc">Run YouTube ad campaigns that reach your ideal audience. We handle strategy, creative, targeting, and optimisation to maximise your video ad ROI.</div>
+            <div class="char-count"><span class="char-ok">Title: 54 chars ✓</span> · <span class="char-ok">Desc: 147 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">YouTube ads agency</span><span class="kw">YouTube advertising</span><span class="kw">video ads management</span></div></td>
+          <td class="vol">3,600</td>
+          <td class="diff med">Med</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/youtube-marketing.html</div></td>
+          <td>
+            <div class="meta-title">YouTube Marketing Services | Grow Your Channel Fast</div>
+            <div class="meta-desc">Grow your YouTube channel with expert marketing strategies. We offer channel optimisation, video SEO, content strategy, and subscriber growth campaigns.</div>
+            <div class="char-count"><span class="char-ok">Title: 52 chars ✓</span> · <span class="char-ok">Desc: 154 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">YouTube marketing services</span><span class="kw">YouTube channel growth</span><span class="kw">video SEO</span></div></td>
+          <td class="vol">3,200</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <!-- BRANDING & DESIGN -->
+        <tr class="cat-row"><td colspan="5"><span class="cat-label">🎨 Service Pages — Branding & Design</span></td></tr>
+
+        <tr>
+          <td><div class="page-url">/services/brand-designs-services.html</div></td>
+          <td>
+            <div class="meta-title">Brand Design Services | Logos, Identity & Visual Systems</div>
+            <div class="meta-desc">Build a brand that stands out. We create logos, visual identities, brand guidelines, and design systems that communicate your values and attract your audience.</div>
+            <div class="char-count"><span class="char-warn">Title: 56 chars ✓</span> · <span class="char-ok">Desc: 159 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">brand design services</span><span class="kw">logo design agency</span><span class="kw">brand identity</span></div></td>
+          <td class="vol">6,600</td>
+          <td class="diff med">Med</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/illustration-services.html</div></td>
+          <td>
+            <div class="meta-title">Illustration Services | Custom Digital Art for Brands</div>
+            <div class="meta-desc">Unique, hand-crafted digital illustrations for websites, branding, marketing, and social media. Stand out with custom artwork that tells your brand story.</div>
+            <div class="char-count"><span class="char-ok">Title: 53 chars ✓</span> · <span class="char-ok">Desc: 155 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">illustration services</span><span class="kw">digital illustration agency</span><span class="kw">custom illustration</span></div></td>
+          <td class="vol">2,400</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/video-production-services.html</div></td>
+          <td>
+            <div class="meta-title">Video Production Services | Brand Films, Ads & Reels</div>
+            <div class="meta-desc">Professional video production for brand films, commercials, social media reels, explainer videos, and YouTube content. We make video that gets results.</div>
+            <div class="char-count"><span class="char-ok">Title: 53 chars ✓</span> · <span class="char-ok">Desc: 153 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">video production services</span><span class="kw">brand video company</span><span class="kw">explainer video</span></div></td>
+          <td class="vol">5,400</td>
+          <td class="diff med">Med</td>
+        </tr>
+
+        <!-- MUSIC SERVICES -->
+        <tr class="cat-row"><td colspan="5"><span class="cat-label">🎵 Service Pages — Music & Streaming (Unique Niche)</span></td></tr>
+
+        <tr>
+          <td><div class="page-url">/services/music-marketing.html</div></td>
+          <td>
+            <div class="meta-title">Music Marketing Services | Promote Your Music Online</div>
+            <div class="meta-desc">Reach more fans and grow your audience with expert music marketing. We offer streaming promotion, social media campaigns, playlist pitching, and press outreach.</div>
+            <div class="char-count"><span class="char-ok">Title: 52 chars ✓</span> · <span class="char-ok">Desc: 160 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">music marketing services</span><span class="kw">promote music online</span><span class="kw">music promotion agency</span></div></td>
+          <td class="vol">2,900</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/music-website.html</div></td>
+          <td>
+            <div class="meta-title">Music Website Design | Sites Built for Artists & Bands</div>
+            <div class="meta-desc">Launch a stunning music website that showcases your artistry. We design EPK-ready, mobile-first websites for musicians, bands, DJs, and record labels.</div>
+            <div class="char-count"><span class="char-ok">Title: 54 chars ✓</span> · <span class="char-ok">Desc: 152 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">music website design</span><span class="kw">band website</span><span class="kw">musician website builder</span></div></td>
+          <td class="vol">1,900</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/artist-development-services.html</div></td>
+          <td>
+            <div class="meta-title">Artist Development Services | Grow Your Music Career</div>
+            <div class="meta-desc">From brand identity to release strategy, our artist development services help musicians build sustainable careers. Coaching, branding, marketing — all in one.</div>
+            <div class="char-count"><span class="char-ok">Title: 53 chars ✓</span> · <span class="char-ok">Desc: 160 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">artist development services</span><span class="kw">music career coaching</span><span class="kw">music branding</span></div></td>
+          <td class="vol">1,300</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/spotify-streaming.html</div></td>
+          <td>
+            <div class="meta-title">Spotify Promotion Services | Get More Streams & Plays</div>
+            <div class="meta-desc">Boost your Spotify streams with genuine playlist pitching, editorial submission support, and targeted Spotify promotion campaigns. Grow your fanbase now.</div>
+            <div class="char-count"><span class="char-ok">Title: 53 chars ✓</span> · <span class="char-ok">Desc: 153 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">Spotify promotion</span><span class="kw">Spotify playlist pitching</span><span class="kw">get more streams</span></div></td>
+          <td class="vol">5,400</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/soundcloud-streaming.html</div></td>
+          <td>
+            <div class="meta-title">SoundCloud Promotion | Grow Your SoundCloud Plays</div>
+            <div class="meta-desc">Expand your SoundCloud audience with targeted promotion campaigns, follower growth strategies, and playlist placements. Build real engagement on SoundCloud.</div>
+            <div class="char-count"><span class="char-ok">Title: 50 chars ✓</span> · <span class="char-ok">Desc: 157 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">SoundCloud promotion</span><span class="kw">SoundCloud plays</span><span class="kw">SoundCloud marketing</span></div></td>
+          <td class="vol">1,600</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/services/streaming-platforms.html</div></td>
+          <td>
+            <div class="meta-title">Streaming Platform Marketing | Spotify, Apple Music & More</div>
+            <div class="meta-desc">Get your music heard on Spotify, Apple Music, Tidal, Amazon Music, and more. We manage multi-platform streaming campaigns that build real audience and streams.</div>
+            <div class="char-count"><span class="char-warn">Title: 58 chars ✓</span> · <span class="char-ok">Desc: 159 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">music streaming promotion</span><span class="kw">Apple Music promotion</span><span class="kw">Tidal marketing</span></div></td>
+          <td class="vol">1,900</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <!-- SPECIALTY SERVICES -->
+        <tr class="cat-row"><td colspan="5"><span class="cat-label">🌟 Service Pages — Specialty</span></td></tr>
+
+        <tr>
+          <td><div class="page-url">/services/non-profit-services.html</div></td>
+          <td>
+            <div class="meta-title">Non-Profit Web Design & Marketing | Amplify Your Mission</div>
+            <div class="meta-desc">Helping non-profits build powerful websites and digital marketing strategies. We offer affordable web design, SEO, and grant-ready digital solutions for NGOs.</div>
+            <div class="char-count"><span class="char-warn">Title: 57 chars ✓</span> · <span class="char-ok">Desc: 159 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">non-profit website design</span><span class="kw">NGO digital marketing</span><span class="kw">charity web design</span></div></td>
+          <td class="vol">2,400</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <!-- LOCATION PAGES -->
+        <tr class="cat-row"><td colspan="5"><span class="cat-label">📍 Location Pages</span></td></tr>
+
+        <tr>
+          <td><div class="page-url">/locations/phoenix-digital-marketing.html</div></td>
+          <td>
+            <div class="meta-title">Digital Marketing Agency Phoenix AZ | Local SEO & Web Design</div>
+            <div class="meta-desc">Phoenix's trusted digital marketing agency. We help Phoenix businesses rank locally, build beautiful websites, and run campaigns that generate real leads.</div>
+            <div class="char-count"><span class="char-warn">Title: 61 chars ⚠</span> · <span class="char-ok">Desc: 154 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">digital marketing Phoenix AZ</span><span class="kw">Phoenix SEO agency</span><span class="kw">web design Phoenix</span></div></td>
+          <td class="vol">1,900</td>
+          <td class="diff med">Med</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/locations/scottsdale-digital-marketing.html</div></td>
+          <td>
+            <div class="meta-title">Digital Marketing Agency Scottsdale | SEO & Web Design</div>
+            <div class="meta-desc">Grow your Scottsdale business online with our local SEO, web design, and digital marketing services. We know the Scottsdale market inside and out.</div>
+            <div class="char-count"><span class="char-ok">Title: 55 chars ✓</span> · <span class="char-ok">Desc: 149 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">digital marketing Scottsdale</span><span class="kw">Scottsdale SEO</span><span class="kw">web design Scottsdale</span></div></td>
+          <td class="vol">880</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/locations/tempe-digital-marketing.html</div></td>
+          <td>
+            <div class="meta-title">Digital Marketing Agency Tempe AZ | SEO & Web Design</div>
+            <div class="meta-desc">BestWebDeveloper.org serves Tempe, AZ businesses with expert SEO, web design, PPC, and social media marketing. Get found by local customers in Tempe today.</div>
+            <div class="char-count"><span class="char-ok">Title: 53 chars ✓</span> · <span class="char-ok">Desc: 159 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">digital marketing Tempe AZ</span><span class="kw">Tempe SEO agency</span><span class="kw">Tempe web design</span></div></td>
+          <td class="vol">590</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/locations/uk-digital-marketing-services.html</div></td>
+          <td>
+            <div class="meta-title">UK Digital Marketing Agency | SEO, Web Design & PPC</div>
+            <div class="meta-desc">Award-winning digital marketing services for UK businesses. We help brands across England, Scotland, and Wales rank higher, get more traffic, and convert.</div>
+            <div class="char-count"><span class="char-ok">Title: 52 chars ✓</span> · <span class="char-ok">Desc: 155 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">UK digital marketing agency</span><span class="kw">SEO agency UK</span><span class="kw">web design UK</span></div></td>
+          <td class="vol">3,600</td>
+          <td class="diff hard">Hard</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/locations/usa-digital-marketing-services.html</div></td>
+          <td>
+            <div class="meta-title">USA Digital Marketing Agency | Nationwide SEO & Web Design</div>
+            <div class="meta-desc">Top-rated digital marketing agency serving businesses across the USA. National SEO, web development, PPC, and brand strategy — wherever you are in America.</div>
+            <div class="char-count"><span class="char-warn">Title: 59 chars ✓</span> · <span class="char-ok">Desc: 156 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">USA digital marketing agency</span><span class="kw">national SEO service</span><span class="kw">American web agency</span></div></td>
+          <td class="vol">2,400</td>
+          <td class="diff hard">Hard</td>
+        </tr>
+
+        <!-- PORTFOLIO PAGES -->
+        <tr class="cat-row"><td colspan="5"><span class="cat-label">💼 Portfolio Pages</span></td></tr>
+
+        <tr>
+          <td><div class="page-url">/portfolio/brand-identity-system.html</div></td>
+          <td>
+            <div class="meta-title">Brand Identity System | Portfolio | BestWebDeveloper</div>
+            <div class="meta-desc">Case study: How we built a complete brand identity system for our client — logo, typography, colour palette, brand guidelines, and digital asset library.</div>
+            <div class="char-count"><span class="char-ok">Title: 53 chars ✓</span> · <span class="char-ok">Desc: 153 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">brand identity case study</span><span class="kw">brand design portfolio</span></div></td>
+          <td class="vol">—</td>
+          <td class="diff easy">Low</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/portfolio/corporate-website-redesign.html</div></td>
+          <td>
+            <div class="meta-title">Corporate Website Redesign | Portfolio | BestWebDeveloper</div>
+            <div class="meta-desc">Case study: Complete corporate website redesign that boosted page speed, improved UX, and increased organic traffic by over 140% within 6 months post-launch.</div>
+            <div class="char-count"><span class="char-warn">Title: 58 chars ✓</span> · <span class="char-ok">Desc: 159 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">corporate website redesign</span><span class="kw">website redesign case study</span></div></td>
+          <td class="vol">—</td>
+          <td class="diff easy">Low</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/portfolio/digital-campaign-engine.html</div></td>
+          <td>
+            <div class="meta-title">Digital Campaign Engine | Portfolio | BestWebDeveloper</div>
+            <div class="meta-desc">Case study: How we built a multi-channel digital campaign engine combining PPC, email automation, and social media to triple a client's lead generation.</div>
+            <div class="char-count"><span class="char-ok">Title: 54 chars ✓</span> · <span class="char-ok">Desc: 152 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">digital marketing campaign</span><span class="kw">lead generation case study</span></div></td>
+          <td class="vol">—</td>
+          <td class="diff easy">Low</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/portfolio/mobile-app-launch.html</div></td>
+          <td>
+            <div class="meta-title">Mobile App Launch | Portfolio | BestWebDeveloper.org</div>
+            <div class="meta-desc">Case study: From wireframe to App Store — how we designed, developed, and launched a mobile app that reached 10,000 downloads in its first 90 days.</div>
+            <div class="char-count"><span class="char-ok">Title: 51 chars ✓</span> · <span class="char-ok">Desc: 150 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">mobile app development case study</span><span class="kw">app launch strategy</span></div></td>
+          <td class="vol">—</td>
+          <td class="diff easy">Low</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/portfolio/seo-authority-buildout.html</div></td>
+          <td>
+            <div class="meta-title">SEO Authority Buildout | Portfolio | BestWebDeveloper</div>
+            <div class="meta-desc">Case study: How we took a brand-new domain from zero to Page 1 rankings using a structured SEO authority buildout — content, links, and technical fixes.</div>
+            <div class="char-count"><span class="char-ok">Title: 53 chars ✓</span> · <span class="char-ok">Desc: 153 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">SEO case study</span><span class="kw">authority building example</span></div></td>
+          <td class="vol">—</td>
+          <td class="diff easy">Low</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/portfolio/shopify-growth-store.html</div></td>
+          <td>
+            <div class="meta-title">Shopify Growth Store | Portfolio | BestWebDeveloper</div>
+            <div class="meta-desc">Case study: How we redesigned and SEO-optimised a Shopify store, resulting in a 210% increase in organic traffic and a 35% boost in monthly revenue.</div>
+            <div class="char-count"><span class="char-ok">Title: 51 chars ✓</span> · <span class="char-ok">Desc: 152 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">Shopify SEO case study</span><span class="kw">ecommerce growth</span></div></td>
+          <td class="vol">—</td>
+          <td class="diff easy">Low</td>
+        </tr>
+
+        <!-- BLOG PAGES -->
+        <tr class="cat-row"><td colspan="5"><span class="cat-label">📝 Blog Pages</span></td></tr>
+
+        <tr>
+          <td><div class="page-url">/blog/bootstrap-corporate-websites.html</div></td>
+          <td>
+            <div class="meta-title">Bootstrap Corporate Websites: Build Fast Without Limits</div>
+            <div class="meta-desc">How to build professional corporate websites using Bootstrap. Learn layouts, components, and best practices for fast, responsive Bootstrap web development.</div>
+            <div class="char-count"><span class="char-ok">Title: 54 chars ✓</span> · <span class="char-ok">Desc: 155 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">Bootstrap corporate website</span><span class="kw">Bootstrap web development</span><span class="kw">corporate website template</span></div></td>
+          <td class="vol">2,900</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/blog/brand-identity-online-trust.html</div></td>
+          <td>
+            <div class="meta-title">Brand Identity & Online Trust: Why Design Matters for SEO</div>
+            <div class="meta-desc">Learn why strong brand identity builds online trust and directly improves your SEO performance, click-through rates, and customer retention over time.</div>
+            <div class="char-count"><span class="char-warn">Title: 58 chars ✓</span> · <span class="char-ok">Desc: 151 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">brand identity online trust</span><span class="kw">brand design SEO</span><span class="kw">online branding</span></div></td>
+          <td class="vol">1,600</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/blog/email-automation-funnels.html</div></td>
+          <td>
+            <div class="meta-title">Email Automation Funnels: Turn Subscribers Into Buyers</div>
+            <div class="meta-desc">A step-by-step guide to building email automation funnels that convert. Learn welcome sequences, lead nurturing, re-engagement flows, and abandoned cart emails.</div>
+            <div class="char-count"><span class="char-ok">Title: 54 chars ✓</span> · <span class="char-ok">Desc: 160 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">email automation funnel</span><span class="kw">email marketing sequence</span><span class="kw">drip campaign</span></div></td>
+          <td class="vol">3,600</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/blog/geo-optimization-for-ai-search.html</div></td>
+          <td>
+            <div class="meta-title">GEO Optimisation for AI Search: Rank in ChatGPT & Gemini</div>
+            <div class="meta-desc">Learn how Generative Engine Optimisation (GEO) helps your business appear in AI-powered search results from ChatGPT, Gemini, Perplexity, and Google AI Overviews.</div>
+            <div class="char-count"><span class="char-warn">Title: 58 chars ✓</span> · <span class="char-ok">Desc: 160 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">GEO optimization</span><span class="kw">AI search optimisation</span><span class="kw">rank in ChatGPT</span><span class="kw">generative engine optimisation</span></div></td>
+          <td class="vol">2,200</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/blog/responsive-web-design-conversions.html</div></td>
+          <td>
+            <div class="meta-title">Responsive Web Design & Conversions: The Full Guide</div>
+            <div class="meta-desc">Discover how responsive web design directly impacts your conversion rate. Mobile-first design, page speed, UX patterns, and A/B testing insights inside.</div>
+            <div class="char-count"><span class="char-ok">Title: 52 chars ✓</span> · <span class="char-ok">Desc: 153 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">responsive web design conversions</span><span class="kw">mobile-first design</span><span class="kw">CRO web design</span></div></td>
+          <td class="vol">4,400</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/blog/seo-ready-website-checklist.html</div></td>
+          <td>
+            <div class="meta-title">SEO-Ready Website Checklist: 30 Points Before You Launch</div>
+            <div class="meta-desc">Use our 30-point SEO checklist before launching any website. Covers technical SEO, on-page elements, performance, schema markup, and mobile optimisation.</div>
+            <div class="char-count"><span class="char-warn">Title: 57 chars ✓</span> · <span class="char-ok">Desc: 154 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">SEO website checklist</span><span class="kw">website launch SEO</span><span class="kw">pre-launch SEO</span></div></td>
+          <td class="vol">5,400</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/blog/shopify-product-page-seo.html</div></td>
+          <td>
+            <div class="meta-title">Shopify Product Page SEO: Optimise & Rank Higher in 2026</div>
+            <div class="meta-desc">Complete guide to Shopify product page SEO — title tags, meta descriptions, structured data, image optimisation, and content strategies that drive organic sales.</div>
+            <div class="char-count"><span class="char-warn">Title: 57 chars ✓</span> · <span class="char-ok">Desc: 161 chars ⚠</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">Shopify product page SEO</span><span class="kw">Shopify SEO guide</span><span class="kw">ecommerce SEO</span></div></td>
+          <td class="vol">3,600</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/blog/social-media-content-calendar.html</div></td>
+          <td>
+            <div class="meta-title">Social Media Content Calendar: Plan, Schedule & Win</div>
+            <div class="meta-desc">Build a social media content calendar that saves time and drives results. Download our free template and learn how to plan content weeks in advance.</div>
+            <div class="char-count"><span class="char-ok">Title: 51 chars ✓</span> · <span class="char-ok">Desc: 149 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">social media content calendar</span><span class="kw">social media planning template</span></div></td>
+          <td class="vol">9,900</td>
+          <td class="diff easy">Easy</td>
+        </tr>
+
+        <tr>
+          <td><div class="page-url">/blog/technical-seo-site-health.html</div></td>
+          <td>
+            <div class="meta-title">Technical SEO & Site Health: The Complete 2026 Guide</div>
+            <div class="meta-desc">Improve your site's technical health with this comprehensive guide. Covers crawlability, indexation, Core Web Vitals, structured data, and security basics.</div>
+            <div class="char-count"><span class="char-ok">Title: 53 chars ✓</span> · <span class="char-ok">Desc: 156 chars ✓</span></div>
+          </td>
+          <td><div class="kw-list"><span class="kw">technical SEO guide</span><span class="kw">site health SEO</span><span class="kw">Core Web Vitals 2026</span></div></td>
+          <td class="vol">8,100</td>
+          <td class="diff med">Med</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ====================================================
+     MISSING / GAP PAGES TO CREATE
+===================================================== -->
+<section id="missing-pages">
+  <div class="section-title"><span class="icon">🚧</span> Missing Pages — Create These to Close Gaps</div>
+  <div class="section-sub">18 high-priority pages your competitors have that you don't. Includes suggested URL, meta, and target keyword.</div>
+
+  <div class="gap-page-grid">
+
+    <div class="gap-card">
+      <h4>iOS App Development</h4>
+      <div class="url-suggest">/services/ios-app-development.html</div>
+      <p>Android exists — iOS page is missing. Competitors rank for this. 5,400/mo searches.</p>
+      <div class="kw-list" style="margin-bottom:8px;"><span class="kw">iOS app development</span><span class="kw">iPhone app developer</span></div>
+      <div class="priority"><span class="pill high">HIGH PRIORITY</span></div>
+    </div>
+
+    <div class="gap-card">
+      <h4>Ecommerce SEO Services</h4>
+      <div class="url-suggest">/services/ecommerce-seo-services.html</div>
+      <p>You have ecommerce dev + Shopify blog — but no ecommerce SEO service page. 6,600/mo gap.</p>
+      <div class="kw-list" style="margin-bottom:8px;"><span class="kw">ecommerce SEO agency</span><span class="kw">Shopify SEO services</span></div>
+      <div class="priority"><span class="pill high">HIGH PRIORITY</span></div>
+    </div>
+
+    <div class="gap-card">
+      <h4>White Label SEO Services</h4>
+      <div class="url-suggest">/services/white-label-seo.html</div>
+      <p>4,400/mo keyword. Agencies need white label partners. Unique B2B revenue opportunity.</p>
+      <div class="kw-list" style="margin-bottom:8px;"><span class="kw">white label SEO</span><span class="kw">reseller SEO services</span></div>
+      <div class="priority"><span class="pill high">HIGH PRIORITY</span></div>
+    </div>
+
+    <div class="gap-card">
+      <h4>GEO / AI Search Service Page</h4>
+      <div class="url-suggest">/services/geo-ai-search-optimization.html</div>
+      <p>Blog post exists — convert to a full service page. Emerging category with low competition. Own it now.</p>
+      <div class="kw-list" style="margin-bottom:8px;"><span class="kw">GEO optimization service</span><span class="kw">AI SEO service</span></div>
+      <div class="priority"><span class="pill high">HIGH PRIORITY</span></div>
+    </div>
+
+    <div class="gap-card">
+      <h4>WordPress Maintenance / Support</h4>
+      <div class="url-suggest">/services/wordpress-maintenance.html</div>
+      <p>WordPress development page exists — maintenance is a companion page with 4,400/mo searches.</p>
+      <div class="kw-list" style="margin-bottom:8px;"><span class="kw">WordPress maintenance service</span><span class="kw">WordPress support</span></div>
+      <div class="priority"><span class="pill med">MEDIUM PRIORITY</span></div>
+    </div>
+
+    <div class="gap-card">
+      <h4>Shopify SEO Services Page</h4>
+      <div class="url-suggest">/services/shopify-seo-services.html</div>
+      <p>Blog on Shopify product SEO exists. A dedicated Shopify SEO service page captures 3,600/mo commercial intent.</p>
+      <div class="kw-list" style="margin-bottom:8px;"><span class="kw">Shopify SEO agency</span><span class="kw">Shopify SEO expert</span></div>
+      <div class="priority"><span class="pill med">MEDIUM PRIORITY</span></div>
+    </div>
+
+    <div class="gap-card">
+      <h4>Reputation Management Services</h4>
+      <div class="url-suggest">/services/reputation-management.html</div>
+      <p>Every major competitor offers this. 8,100/mo searches. High conversion intent keyword.</p>
+      <div class="kw-list" style="margin-bottom:8px;"><span class="kw">online reputation management</span><span class="kw">reputation SEO</span></div>
+      <div class="priority"><span class="pill med">MEDIUM PRIORITY</span></div>
+    </div>
+
+    <div class="gap-card">
+      <h4>Conversion Rate Optimisation (CRO)</h4>
+      <div class="url-suggest">/services/conversion-rate-optimization.html</div>
+      <p>Missing CRO page — natural upsell for web design + SEO clients. 5,400/mo keyword.</p>
+      <div class="kw-list" style="margin-bottom:8px;"><span class="kw">CRO services</span><span class="kw">conversion rate optimization agency</span></div>
+      <div class="priority"><span class="pill med">MEDIUM PRIORITY</span></div>
+    </div>
+
+    <div class="gap-card">
+      <h4>TikTok Marketing Services</h4>
+      <div class="url-suggest">/services/tiktok-marketing.html</div>
+      <p>Huge search growth. 9,900/mo. Missing from service list while YouTube and social media are present.</p>
+      <div class="kw-list" style="margin-bottom:8px;"><span class="kw">TikTok marketing agency</span><span class="kw">TikTok ads management</span></div>
+      <div class="priority"><span class="pill med">MEDIUM PRIORITY</span></div>
+    </div>
+
+    <div class="gap-card">
+      <h4>Instagram Marketing Services</h4>
+      <div class="url-suggest">/services/instagram-marketing.html</div>
+      <p>Instagram-specific page (part of social media but standalone pages rank better). 12,100/mo.</p>
+      <div class="kw-list" style="margin-bottom:8px;"><span class="kw">Instagram marketing agency</span><span class="kw">Instagram growth service</span></div>
+      <div class="priority"><span class="pill med">MEDIUM PRIORITY</span></div>
+    </div>
+
+    <div class="gap-card">
+      <h4>Additional US City Location Pages</h4>
+      <div class="url-suggest">/locations/los-angeles-digital-marketing.html<br>/locations/new-york-digital-marketing.html<br>/locations/chicago-digital-marketing.html</div>
+      <p>Only 3 Arizona cities covered. Top competitors have 30–50+ city pages. Each city page = thousands more organic searches.</p>
+      <div class="kw-list" style="margin-bottom:8px;"><span class="kw">digital marketing [city]</span><span class="kw">SEO agency [city]</span></div>
+      <div class="priority"><span class="pill high">HIGH PRIORITY</span></div>
+    </div>
+
+    <div class="gap-card">
+      <h4>Canada Digital Marketing Page</h4>
+      <div class="url-suggest">/locations/canada-digital-marketing-services.html</div>
+      <p>UK + USA covered — Canada is an easy addition. 1,900/mo. Strong English-speaking market.</p>
+      <div class="kw-list" style="margin-bottom:8px;"><span class="kw">digital marketing Canada</span><span class="kw">Canadian SEO agency</span></div>
+      <div class="priority"><span class="pill low">LOW PRIORITY</span></div>
+    </div>
+
+    <div class="gap-card">
+      <h4>Australia Digital Marketing Page</h4>
+      <div class="url-suggest">/locations/australia-digital-marketing-services.html</div>
+      <p>English-speaking market with strong search volume. Complements UK + USA positioning.</p>
+      <div class="kw-list" style="margin-bottom:8px;"><span class="kw">digital marketing Australia</span><span class="kw">SEO agency Australia</span></div>
+      <div class="priority"><span class="pill low">LOW PRIORITY</span></div>
+    </div>
+
+    <div class="gap-card">
+      <h4>Music Label / Record Label Services</h4>
+      <div class="url-suggest">/services/record-label-marketing.html</div>
+      <p>Unique niche — you already serve musicians. Add a record-label-facing page. Very low competition.</p>
+      <div class="kw-list" style="margin-bottom:8px;"><span class="kw">record label marketing</span><span class="kw">indie label digital marketing</span></div>
+      <div class="priority"><span class="pill low">LOW PRIORITY</span></div>
+    </div>
+
+    <div class="gap-card">
+      <h4>Apple Music / Tidal Promotion Pages</h4>
+      <div class="url-suggest">/services/apple-music-promotion.html</div>
+      <p>Streaming platforms page is general — dedicated Apple Music promotion page captures branded search.</p>
+      <div class="kw-list" style="margin-bottom:8px;"><span class="kw">Apple Music promotion</span><span class="kw">get on Apple Music playlists</span></div>
+      <div class="priority"><span class="pill low">LOW PRIORITY</span></div>
+    </div>
+
+    <div class="gap-card">
+      <h4>Schema Markup / Structured Data Service</h4>
+      <div class="url-suggest">/services/schema-markup-services.html</div>
+      <p>Technical SEO page is broad. A focused schema page targets 2,900/mo technical search intent.</p>
+      <div class="kw-list" style="margin-bottom:8px;"><span class="kw">schema markup service</span><span class="kw">structured data implementation</span></div>
+      <div class="priority"><span class="pill low">LOW PRIORITY</span></div>
+    </div>
+
+    <div class="gap-card">
+      <h4>Web Accessibility Services</h4>
+      <div class="url-suggest">/services/web-accessibility-services.html</div>
+      <p>WCAG compliance and ADA accessibility services. Growing compliance requirement. Thin competitor coverage.</p>
+      <div class="kw-list" style="margin-bottom:8px;"><span class="kw">web accessibility services</span><span class="kw">ADA website compliance</span><span class="kw">WCAG audit</span></div>
+      <div class="priority"><span class="pill low">LOW PRIORITY</span></div>
+    </div>
+
+    <div class="gap-card">
+      <h4>LinkedIn Marketing Services</h4>
+      <div class="url-suggest">/services/linkedin-marketing.html</div>
+      <p>B2B angle — LinkedIn ads + organic strategy. 6,600/mo. Complements social media agency page.</p>
+      <div class="kw-list" style="margin-bottom:8px;"><span class="kw">LinkedIn marketing agency</span><span class="kw">LinkedIn ads management</span></div>
+      <div class="priority"><span class="pill med">MEDIUM PRIORITY</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====================================================
+     ACTION PRIORITY
+===================================================== -->
+<section id="priority">
+  <div class="section-title"><span class="icon">🎯</span> Recommended Action Priority</div>
+  <div class="section-sub">Execute in this order for maximum SEO and revenue impact.</div>
+
+  <div class="priority-list">
+    <div class="priority-item">
+      <div class="priority-num">1</div>
+      <div>
+        <h4>Apply All Meta Titles & Descriptions</h4>
+        <p>Implement the titles and descriptions from this report across all 60 pages. This is the single fastest win — takes 1–2 days and impacts every page immediately.</p>
+      </div>
+    </div>
+    <div class="priority-item">
+      <div class="priority-num">2</div>
+      <div>
+        <h4>Add 10+ US City Location Pages</h4>
+        <p>Each city page targets 1,000–5,000/mo local searches. LA, NYC, Chicago, Houston, Dallas, Miami, Seattle, Denver, Austin, Atlanta.</p>
+      </div>
+    </div>
+    <div class="priority-item">
+      <div class="priority-num">3</div>
+      <div>
+        <h4>Create iOS App Development Page</h4>
+        <p>5,400/mo — obvious gap since Android exists. Quick duplicate-and-adapt from Android page.</p>
+      </div>
+    </div>
+    <div class="priority-item">
+      <div class="priority-num">4</div>
+      <div>
+        <h4>Create GEO / AI Search Optimisation Service Page</h4>
+        <p>You have the blog content — convert it. Own this emerging keyword before competition catches up.</p>
+      </div>
+    </div>
+    <div class="priority-item">
+      <div class="priority-num">5</div>
+      <div>
+        <h4>Expand Music Marketing Hub</h4>
+        <p>Add Apple Music, record label, and DJ marketing pages. This niche has no major competitors — low-hanging fruit with loyal, high-intent buyers.</p>
+      </div>
+    </div>
+    <div class="priority-item">
+      <div class="priority-num">6</div>
+      <div>
+        <h4>Create Ecommerce SEO & White Label SEO Pages</h4>
+        <p>Two high-intent commercial pages missing. Combined monthly search volume: ~11,000.</p>
+      </div>
+    </div>
+    <div class="priority-item">
+      <div class="priority-num">7</div>
+      <div>
+        <h4>Add Schema Markup (JSON-LD) to All Pages</h4>
+        <p>Organization, Service, FAQPage, BreadcrumbList, LocalBusiness schemas. Competitors all use rich schema — this is a technical gap that affects click-through rates.</p>
+      </div>
+    </div>
+    <div class="priority-item">
+      <div class="priority-num">8</div>
+      <div>
+        <h4>Scale Blog to 30+ Posts</h4>
+        <p>Currently 9 posts vs competitors' 200–1,000+. Target 2 posts/week for 6 months covering all service-adjacent keywords.</p>
+      </div>
+    </div>
+    <div class="priority-item">
+      <div class="priority-num">9</div>
+      <div>
+        <h4>Add TikTok & Instagram Marketing Service Pages</h4>
+        <p>Combined 22,000/mo in searches. Social media agency page alone won't capture these specific intent searches.</p>
+      </div>
+    </div>
+    <div class="priority-item">
+      <div class="priority-num">10</div>
+      <div>
+        <h4>Strengthen Pricing Page with Comparison Tables</h4>
+        <p>Transparent pricing is a competitive advantage over Lounge Lizard and Victorious. Add tier comparison tables and FAQ schema to the pricing page.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Generated for BestWebDeveloper.org · SEO Keyword Research, Competitor Analysis & Meta Optimization Report · May 2026<br>
+  Total Pages Audited: 60 · Gap Pages Identified: 18 · Keywords Mapped: 240+
+</footer>
+
+</body>
+</html>

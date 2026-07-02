@@ -35,8 +35,22 @@
   function toast(msg){ const el=document.createElement('div'); el.className='toast-line'; el.textContent=msg; document.body.appendChild(el); setTimeout(()=>el.remove(),4200); }
   function configuredEndpoint(){ return C.appsScriptUrl && !/PASTE|YOUR|^\s*$/.test(C.appsScriptUrl); }
   function cleanRecord(r){ const out={}; Object.keys(r||{}).forEach(k=>{ if(r[k]!==undefined && r[k]!==null) out[k]=String(r[k]); }); return out; }
-  function publicUrlFor(data){ if(data.canonicalUrl) return data.canonicalUrl; const slug = data.slug || slugify(data.title); const base = (C.siteBaseUrl||'').replace(/\/$/,''); const prefix = pageBase[moduleName] || ''; if(moduleName==='pages' && !slug) return base + '/'; return base + '/' + (prefix ? prefix + '/' : '') + slug + '.html'; }
-  function loadLocal(type){ const raw=localStorage.getItem(storageKey(type)); if(raw){ try{return JSON.parse(raw)||[]}catch(e){} } return (SEED[type]||[]).map(cleanRecord); }
+  function publicUrlFor(data){ if(data.canonicalUrl) return data.canonicalUrl; const slug = data.slug || slugify(data.title); const base = (C.siteBaseUrl||'').replace(/\/$/,''); const prefix = pageBase[moduleName] || ''; if(moduleName==='pages' && !slug) return base + '/'; if(moduleName==='blogs') return base + '/blog/' + slug; if(moduleName==='services') return base + '/services/' + slug; return base + '/' + (prefix ? prefix + '/' : '') + slug + '.html'; }
+  function loadLocal(type){
+    const raw=localStorage.getItem(storageKey(type));
+    const seedData=(SEED[type]||[]).map(cleanRecord);
+    let persisted=[];
+    if(raw){ try{ persisted=JSON.parse(raw)||[]; }catch(e){} }
+    const mergedMap=new Map();
+    [...seedData, ...persisted.map(cleanRecord)].forEach(record=>{
+      const key = record.id || record.slug || `${type}-${Date.now()}-${Math.random()}`;
+      const existing=mergedMap.get(key);
+      mergedMap.set(key, existing ? {...cleanRecord(existing), ...cleanRecord(record)} : cleanRecord(record));
+    });
+    const merged=Array.from(mergedMap.values());
+    if(merged.length) saveLocal(type, merged);
+    return merged;
+  }
   function saveLocal(type, list){ localStorage.setItem(storageKey(type), JSON.stringify(list)); }
 
   function checkPassword(pw){ return String(pw||'') === String(C.adminPassword || 'BWD@2026'); }

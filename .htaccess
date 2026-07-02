@@ -1,6 +1,9 @@
 # Best Web Developer - URL Redirect Configuration
 # Remove .html extensions and redirect with 301 permanent redirects
 
+ErrorDocument 404 /404.html
+ErrorDocument 410 /404.html
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
@@ -115,6 +118,7 @@
   Header set X-Content-Type-Options "nosniff"
   Header set X-Frame-Options "SAMEORIGIN"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 </IfModule>
 
 # Enable HTTPS

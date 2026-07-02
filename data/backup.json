@@ -1,0 +1,15 @@
+{
+  "blogs": [],
+  "services": [],
+  "pages": [],
+  "categories": [],
+  "tags": [],
+  "seo": [],
+  "geo": [],
+  "aeo": [],
+  "_metadata": {
+    "synced_at": "2026-07-02T00:00:00.000Z",
+    "sync_source": "Google Sheets + GitHub Issues",
+    "description": "Complete backup of all website data. Auto-synced by GitHub Actions."
+  }
+}

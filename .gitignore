@@ -1,0 +1,38 @@
+# Node modules
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
+# Build artifacts
+dist/
+build/
+*.tmp
+
+# Keep data directory for backups
+!data/
+data/**
+!data/.gitkeep
+!data/backup.json
+!data/blogs.json
+!data/services.json
+!data/pages.json
+!data/categories.json
+!data/tags.json
+!data/seo.json
+!data/geo.json
+!data/aeo.json

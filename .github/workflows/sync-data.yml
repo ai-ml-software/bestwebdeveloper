@@ -1,0 +1,50 @@
+name: Sync Data to GitHub Issues & JSON
+
+# Trigger on schedule (daily) and manual dispatch
+on:
+  schedule:
+    # Run every day at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/sync-data.yml'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Run sync script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          APPS_SCRIPT_URL: ${{ secrets.APPS_SCRIPT_URL }}
+        run: node scripts/sync-to-github-issues.js
+      
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/
+          git commit -m "🔄 Auto-sync: Update data backups $(date -u +'%Y-%m-%d %H:%M:%S')" || exit 0
+          git push
+      
+      - name: Create sync summary
+        if: always()
+        run: |
+          echo "✅ Data sync completed at $(date -u +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Synced to:**" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ GitHub Issues (with labels for filtering)" >> $GITHUB_STEP_SUMMARY
+          echo "- 💾 JSON backups in /data directory" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 Combined backup.json" >> $GITHUB_STEP_SUMMARY

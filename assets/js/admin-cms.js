@@ -75,11 +75,13 @@
 
   function renderForm(){
     const form=$('#cmsForm'); if(!form) return;
-    form.innerHTML=(fieldSets[moduleName]||fieldSets.blogs).map(fieldHTML).join('') + `<div class="cms-actions field full"><button class="cms-btn primary" type="submit"><i class="bi bi-save2"></i> Save to table</button><button class="cms-btn light" type="button" id="newRecord"><i class="bi bi-plus-circle"></i> New</button><button class="cms-btn dark" type="button" id="syncSheet"><i class="bi bi-cloud-arrow-down"></i> Sync Google Sheet</button><button class="cms-btn light" type="button" id="copyJson"><i class="bi bi-braces"></i> Copy JSON</button><button class="cms-btn light" type="button" id="downloadHtml"><i class="bi bi-filetype-html"></i> Download HTML</button></div>`;
+    form.innerHTML=(fieldSets[moduleName]||fieldSets.blogs).map(fieldHTML).join('') + `<div class="cms-actions field full"><button class="cms-btn primary" type="submit"><i class="bi bi-save2"></i> Save to table</button><button class="cms-btn light" type="button" id="newRecord"><i class="bi bi-plus-circle"></i> New</button><div class="cms-btn-group"><button class="cms-btn dark" type="button" id="syncSheet"><i class="bi bi-cloud-arrow-down"></i> Google Sheets</button><button class="cms-btn info" type="button" id="syncGitHub"><i class="bi bi-github"></i> GitHub Issues</button><button class="cms-btn info" type="button" id="syncJson"><i class="bi bi-database"></i> JSON Backup</button></div><button class="cms-btn light" type="button" id="copyJson"><i class="bi bi-braces"></i> Copy JSON</button><button class="cms-btn light" type="button" id="downloadHtml"><i class="bi bi-filetype-html"></i> Download HTML</button></div>`;
     form.addEventListener('input', formChanged);
     form.addEventListener('submit', saveCurrent);
     $('#newRecord')?.addEventListener('click', ()=>fillForm({}));
     $('#syncSheet')?.addEventListener('click', loadFromSheet);
+    $('#syncGitHub')?.addEventListener('click', loadFromGitHub);
+    $('#syncJson')?.addEventListener('click', loadFromJsonBackup);
     $('#copyJson')?.addEventListener('click', copyCurrentJson);
     $('#downloadHtml')?.addEventListener('click', downloadCurrentHtml);
   }
@@ -180,6 +182,30 @@
   async function loadFromSheet(){
     try{ const out=await fetchSheet({action:'list', type:moduleName}, 'GET'); if(out.ok){ records=(out.records||[]).map(cleanRecord); saveLocal(moduleName, records); renderTable(); toast('Synced from Google Sheets.'); } else throw new Error(out.error||'Sync failed'); }
     catch(err){ toast(err.message + ' Using browser data.'); }
+  }
+  async function loadFromGitHub(){
+    try{
+      const label = {blogs:'content:blog',services:'content:service',pages:'content:page',categories:'content:category',tags:'content:tag',seo:'content:seo',geo:'content:geo',aeo:'content:aeo'}[moduleName];
+      if(!label) throw new Error('Unknown content type');
+      const url=`https://api.github.com/repos/ai-ml-software/bestwebdeveloper/issues?labels=${encodeURIComponent(label)}&state=all&per_page=100`;
+      const res=await fetch(url, {headers:{'Accept':'application/vnd.github.v3+json'}});
+      if(!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+      const issues=await res.json();
+      const converted=issues.filter(i=>!i.pull_request).map(issue=>{
+        const body=issue.body||''; const rec={id:issue.number.toString(),title:issue.title,status:issue.state==='closed'?'archived':(issue.labels.some(l=>l.name==='status:published')?'published':'draft'),_githubIssue:issue.number,_githubUrl:issue.html_url};
+        body.split('\n').forEach(line=>{const m=line.match(/^([a-zA-Z0-9_]+):\s*(.+)$/);if(m) rec[m[1]]=m[2].trim();});
+        return rec;
+      });
+      if(converted.length){records=converted.map(cleanRecord); saveLocal(moduleName, records); renderTable(); toast(`Loaded ${converted.length} records from GitHub Issues.`);}else throw new Error('No issues found');
+    }catch(err){toast('GitHub load failed: '+err.message);}
+  }
+  async function loadFromJsonBackup(){
+    try{
+      const res=await fetch(`./data/${moduleName}.json`);
+      if(!res.ok) throw new Error('Backup file not found');
+      const data=await res.json();
+      if(Array.isArray(data) && data.length){records=data.map(cleanRecord); saveLocal(moduleName, records); renderTable(); toast(`Loaded ${data.length} records from JSON backup.`);}else throw new Error('Invalid backup format');
+    }catch(err){toast('JSON backup load failed: '+err.message);}
   }
   async function saveCurrent(e){
     e?.preventDefault(); const data=getFormData(); const idx=records.findIndex(r=>r.id===data.id); if(idx>=0) records[idx]=data; else records.unshift(data); saveLocal(moduleName, records); renderTable(); fillForm(data);
